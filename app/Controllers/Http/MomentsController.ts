@@ -1,9 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
-
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
 import Moment from 'App/Models/Moment'
-
 import Application from '@ioc:Adonis/Core/Application'
 
 export default class MomentsController {
@@ -13,6 +10,7 @@ export default class MomentsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
+    // Adicionaum novo registro
     const body = request.body()
 
     const image = request.file('image', this.validationOptions)
@@ -35,14 +33,15 @@ export default class MomentsController {
   }
 
   public async index() {
+    // Lista todos os registros
     const moments = await Moment.query().preload('comments')
     return {
-      //message: 'Momento criado com sucesso!',
       data: moments,
     }
   }
 
   public async show({ params }: HttpContextContract) {
+    // Lista um registro
     const moment = await Moment.findOrFail(params.id)
 
     await moment.load('comments')
@@ -53,6 +52,7 @@ export default class MomentsController {
   }
 
   public async destroy({ params }: HttpContextContract) {
+    // Apaga registro
     const moment = await Moment.findOrFail(params.id)
     await moment.delete()
     return {
@@ -62,6 +62,7 @@ export default class MomentsController {
   }
 
   public async update({ params, request }: HttpContextContract) {
+    // Atualiza registro
     const body = request.body()
     const moment = await Moment.findOrFail(params.id)
 

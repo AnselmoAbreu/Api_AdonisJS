@@ -4,6 +4,7 @@ import Moment from 'App/Models/Moment'
 
 export default class CommentsController {
   public async store({ request, response, params }: HttpContextContract) {
+    // Insere um comentário no momento
     const body = request.body()
     const momentId = params.momentId
 
